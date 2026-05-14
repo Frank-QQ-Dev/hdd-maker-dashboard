@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seagate Technology — Financial Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:   #1F3864;
+      --mid:    #2E75B6;
+      --light:  #DEEAF1;
+      --green:  #70AD47;
+      --orange: #ED7D31;
+      --red:    #C00000;
+      --gm:     #375623;
+      --nm:     #c00000;
+      --white:  #ffffff;
+      --grey:   #f7f9fc;
+      --border: #d0dde8;
+      --text:   #1a2a3a;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--grey);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, #2a4f8a 100%);
+      color: #fff;
+      padding: 28px 40px 22px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 16px rgba(31,56,100,.35);
+    }
+    header .logo {
+      width: 48px; height: 48px;
+      background: var(--mid);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; letter-spacing: -1px;
+    }
+    header h1 { font-size: 1.55rem; font-weight: 700; line-height: 1.2; }
+    header p  { font-size: 0.82rem; opacity: .75; margin-top: 3px; }
+    .badge {
+      margin-left: auto;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px 60px; }
+
+    .note {
+      background: #fff;
+      border-left: 4px solid var(--mid);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+      color: #4a5c70;
+      margin-bottom: 28px;
+    }
+
+    /* ── KPI Cards ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .kpi {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 10px rgba(31,56,100,.08);
+      border-top: 4px solid var(--mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi:nth-child(2) { border-top-color: var(--green); }
+    .kpi:nth-child(3) { border-top-color: var(--orange); }
+    .kpi-label { font-size: 0.78rem; font-weight: 600; color: #5a7290; text-transform: uppercase; letter-spacing: .06em; }
+    .kpi-val   { font-size: 2rem; font-weight: 700; color: var(--dark); margin: 6px 0 4px; }
+    .kpi-sub   { font-size: 0.78rem; color: #7a8fa0; }
+    .kpi-cagr  { position: absolute; top: 16px; right: 16px; font-size: 0.78rem; font-weight: 700;
+                 padding: 3px 10px; border-radius: 20px; }
+    .pos { background: #e6f4ea; color: #1e6e34; }
+    .neg { background: #fdecea; color: var(--red); }
+
+    /* ── Section title ── */
+    .section-title {
+      font-size: 1.05rem; font-weight: 700; color: var(--dark);
+      margin-bottom: 14px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--light);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::before {
+      content: ''; display: inline-block;
+      width: 4px; height: 18px;
+      background: var(--mid); border-radius: 2px;
+    }
+
+    /* ── Chart card ── */
+    .chart-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 10px rgba(31,56,100,.08);
+      margin-bottom: 32px;
+    }
+    .chart-wrap { position: relative; height: 360px; }
+
+    /* ── Table ── */
+    .table-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 10px rgba(31,56,100,.08);
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead tr { background: var(--dark); }
+    thead th {
+      color: #fff; font-weight: 600;
+      padding: 12px 16px; text-align: center;
+      white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; border-radius: 6px 0 0 0; }
+    thead th:last-child  { border-radius: 0 6px 0 0; }
+    tbody tr:nth-child(odd)  { background: var(--light); }
+    tbody tr:nth-child(even) { background: #fff; }
+    tbody tr:hover { background: #c5d9ec; transition: background .15s; }
+    tbody td {
+      padding: 11px 16px; text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody td:first-child { text-align: left; font-weight: 600; color: var(--dark); }
+    .sep-row td { height: 6px; padding: 0; background: var(--border) !important; }
+    .neg-val { color: var(--red); font-weight: 600; }
+    .cagr-pos { color: #1e6e34; font-weight: 700; }
+    .cagr-neg { color: var(--red); font-weight: 700; }
+
+    /* ── Quarterly chart ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+    .chart-wrap-sm { position: relative; height: 260px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; font-size: 0.78rem; color: #8a9baa;
+      padding: 20px; border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 700px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .two-col  { grid-template-columns: 1fr; }
+      header    { padding: 20px; flex-wrap: wrap; }
+      .badge    { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">STX</div>
+  <div>
+    <h1>Seagate Technology Holdings</h1>
+    <p>Calendar Year Financial Dashboard · CY2020 – CY2025</p>
+  </div>
+  <div class="badge">Source: SEC 10-K / 10-Q</div>
+</header>
+
+<div class="container">
+
+  <div class="note">
+    ℹ️ Seagate's fiscal year ends in late June. Calendar year figures are derived by mapping fiscal quarters:
+    <strong>CY-Q1</strong> = Jan–Mar (FY-Q3) · <strong>CY-Q2</strong> = Apr–Jun (FY Annual − 9M YTD) ·
+    <strong>CY-Q3</strong> = Jul–Sep (next FY-Q1) · <strong>CY-Q4</strong> = Oct–Dec (next FY-Q2).
+    All figures in USD millions (M).
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">CY2025 Revenue</div>
+      <div class="kpi-val">$10,058M</div>
+      <div class="kpi-sub">vs CY2020: $10,172M</div>
+      <div class="kpi-cagr neg">−0.2% CAGR</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">CY2025 Gross Profit</div>
+      <div class="kpi-val">$3,887M</div>
+      <div class="kpi-sub">Gross Margin: 38.6%</div>
+      <div class="kpi-cagr pos">+7.5% CAGR</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">CY2025 Net Income</div>
+      <div class="kpi-val">$1,977M</div>
+      <div class="kpi-sub">Net Margin: 19.7%</div>
+      <div class="kpi-cagr pos">+14.9% CAGR</div>
+    </div>
+  </div>
+
+  <!-- Main Bar + Line Chart -->
+  <div class="chart-card">
+    <div class="section-title">Revenue, Gross Profit &amp; Net Income by Calendar Year</div>
+    <div class="chart-wrap">
+      <canvas id="mainChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Annual Financials Table -->
+  <div class="table-card">
+    <div class="section-title">Annual Financials Summary (USD $M)</div>
+    <table id="annualTable">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>CY2020</th><th>CY2021</th><th>CY2022</th>
+          <th>CY2023</th><th>CY2024</th><th>CY2025</th>
+          <th>5-Yr CAGR</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Two smaller charts -->
+  <div class="two-col">
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="section-title" style="font-size:.95rem">Gross &amp; Net Margin (%)</div>
+      <div class="chart-wrap-sm">
+        <canvas id="marginChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="section-title" style="font-size:.95rem">Quarterly Revenue Breakdown</div>
+      <div class="chart-wrap-sm">
+        <canvas id="qtrChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Data sourced from Seagate Technology SEC filings (10-K &amp; 10-Q) · Calendar Year conversion ·
+  Updated May 2026
+</footer>
+
+<script>
+// ── DATA ───────────────────────────────────────────────────
+const years = ['CY2020','CY2021','CY2022','CY2023','CY2024','CY2025'];
+
+const annual = {
+  rev: [10172, 11975, 9352, 6471, 8035, 10058],
+  gp:  [2705,  3529,  2293, 1134, 2551, 3887],
+  ni:  [989,   1838,  618, -573,  480,  1977],
+  gm:  [26.6,  29.5,  24.5, 17.5, 31.7, 38.6],
+  nm:  [9.7,   15.3,  6.6,  -8.9,  6.0, 19.7],
+};
+
+// Quarterly Revenue (Q1=Jan-Mar, Q2=Apr-Jun, Q3=Jul-Sep, Q4=Oct-Dec)
+const quarterly = {
+  'CY2020': [2718, 2517, 2314, 2623],
+  'CY2021': [2731, 3013, 3115, 3116],
+  'CY2022': [3291, 2628, 2314, 1119],
+  'CY2023': [1448, 1602, 1537, 1884],
+  'CY2024': [1887, 1887, 2314, 1947],
+  'CY2025': [2249, 2444, 2741, 2624],
+};
+
+// ── TABLE ──────────────────────────────────────────────────
+const rows = [
+  { label: 'Revenue ($M)',      key: 'rev', fmt: 'num',  negRed: false },
+  { label: 'Gross Profit ($M)', key: 'gp',  fmt: 'num',  negRed: false },
+  { label: 'Net Income ($M)',   key: 'ni',  fmt: 'num',  negRed: true  },
+  null,
+  { label: 'Gross Margin (%)',  key: 'gm',  fmt: 'pct',  negRed: false },
+  { label: 'Net Margin (%)',    key: 'nm',  fmt: 'pct',  negRed: true  },
+];
+
+function cagr(v0, v5) {
+  if (!v0 || !v5 || v0 <= 0 || v5 <= 0) return null;
+  return ((v5/v0)**0.2 - 1)*100;
+}
+function fmtNum(v, pct) {
+  if (v === null || v === undefined) return '—';
+  if (pct) return v.toFixed(1) + '%';
+  return (v < 0 ? '(' : '') + '$' + Math.abs(v).toLocaleString() + (v < 0 ? ')' : '');
+}
+
+const tbody = document.getElementById('tableBody');
+rows.forEach(row => {
+  if (!row) {
+    const sep = document.createElement('tr');
+    sep.className = 'sep-row';
+    sep.innerHTML = '<td colspan="8"></td>';
+    tbody.appendChild(sep); return;
+  }
+  const vals = annual[row.key];
+  const isPct = row.fmt === 'pct';
+  const cagrVal = cagr(vals[0], vals[5]);
+  const tr = document.createElement('tr');
+  let html = `<td>${row.label}</td>`;
+  vals.forEach(v => {
+    const neg = v < 0 && row.negRed;
+    html += `<td class="${neg ? 'neg-val' : ''}">${fmtNum(v, isPct)}</td>`;
+  });
+  if (!isPct && cagrVal !== null) {
+    const cls = cagrVal >= 0 ? 'cagr-pos' : 'cagr-neg';
+    html += `<td class="${cls}">${cagrVal >= 0 ? '+' : ''}${cagrVal.toFixed(1)}%</td>`;
+  } else {
+    html += '<td style="color:#aaa">—</td>';
+  }
+  tr.innerHTML = html;
+  tbody.appendChild(tr);
+});
+
+// ── MAIN CHART ─────────────────────────────────────────────
+const mainCtx = document.getElementById('mainChart').getContext('2d');
+new Chart(mainCtx, {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [
+      {
+        label: 'Revenue ($M)',
+        data: annual.rev,
+        backgroundColor: '#2E75B6',
+        borderColor: '#2E75B6',
+        borderWidth: 1,
+        borderRadius: 4,
+        yAxisID: 'yLeft',
+        order: 2,
+      },
+      {
+        label: 'Gross Profit ($M)',
+        data: annual.gp,
+        backgroundColor: '#70AD47',
+        borderColor: '#70AD47',
+        borderWidth: 1,
+        borderRadius: 4,
+        yAxisID: 'yLeft',
+        order: 2,
+      },
+      {
+        label: 'Net Income ($M)',
+        data: annual.ni,
+        backgroundColor: annual.ni.map(v => v < 0 ? '#C00000' : '#ED7D31'),
+        borderColor:     annual.ni.map(v => v < 0 ? '#C00000' : '#ED7D31'),
+        borderWidth: 1,
+        borderRadius: 4,
+        yAxisID: 'yLeft',
+        order: 2,
+      },
+      {
+        label: 'Gross Margin (%)',
+        data: annual.gm,
+        type: 'line',
+        borderColor: '#375623',
+        backgroundColor: 'transparent',
+        pointBackgroundColor: '#375623',
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 2.5,
+        tension: 0.3,
+        yAxisID: 'yRight',
+        order: 1,
+        datalabels: { display: false },
+      },
+      {
+        label: 'Net Margin (%)',
+        data: annual.nm,
+        type: 'line',
+        borderColor: '#C00000',
+        backgroundColor: 'transparent',
+        pointBackgroundColor: '#C00000',
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 2.5,
+        borderDash: [5,4],
+        tension: 0.3,
+        yAxisID: 'yRight',
+        order: 1,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { padding: 18, font: { size: 12 }, usePointStyle: true, pointStyleWidth: 14 }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const v = ctx.parsed.y;
+            if (ctx.dataset.yAxisID === 'yRight') return ` ${ctx.dataset.label}: ${v.toFixed(1)}%`;
+            const s = v < 0 ? `($${Math.abs(v).toLocaleString()}M)` : `$${v.toLocaleString()}M`;
+            return ` ${ctx.dataset.label}: ${s}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 12, weight: '600' }, color: '#1F3864' }
+      },
+      yLeft: {
+        position: 'left',
+        title: { display: true, text: 'USD ($M)', font: { size: 12, weight: '600' }, color: '#1F3864' },
+        grid: { color: '#e8eef5' },
+        ticks: {
+          font: { size: 11 },
+          callback: v => '$' + v.toLocaleString()
+        }
+      },
+      yRight: {
+        position: 'right',
+        title: { display: true, text: 'Margin (%)', font: { size: 12, weight: '600' }, color: '#555' },
+        grid: { drawOnChartArea: false },
+        ticks: { font: { size: 11 }, callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+// ── MARGIN CHART ───────────────────────────────────────────
+const mCtx = document.getElementById('marginChart').getContext('2d');
+new Chart(mCtx, {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [
+      {
+        label: 'Gross Margin',
+        data: annual.gm,
+        borderColor: '#375623',
+        backgroundColor: 'rgba(55,86,35,.08)',
+        pointBackgroundColor: '#375623',
+        pointRadius: 5,
+        borderWidth: 2.5,
+        tension: 0.35,
+        fill: true,
+      },
+      {
+        label: 'Net Margin',
+        data: annual.nm,
+        borderColor: '#C00000',
+        backgroundColor: 'rgba(192,0,0,.06)',
+        pointBackgroundColor: annual.nm.map(v => v < 0 ? '#ff6666' : '#C00000'),
+        pointRadius: 5,
+        borderWidth: 2.5,
+        tension: 0.35,
+        fill: true,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%` } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+      y: {
+        grid: { color: '#e8eef5' },
+        ticks: { font: { size: 11 }, callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+// ── QUARTERLY CHART ────────────────────────────────────────
+const qCtx = document.getElementById('qtrChart').getContext('2d');
+const qColors = ['#2E75B6','#70AD47','#ED7D31','#A9D18E'];
+new Chart(qCtx, {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: ['Q1 (Jan-Mar)','Q2 (Apr-Jun)','Q3 (Jul-Sep)','Q4 (Oct-Dec)'].map((lbl,i) => ({
+      label: lbl,
+      data: years.map(cy => quarterly[cy][i]),
+      backgroundColor: qColors[i],
+      borderColor: qColors[i],
+      borderWidth: 1,
+      borderRadius: 3,
+      stack: 'q',
+    }))
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}M` } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        stacked: true,
+        grid: { color: '#e8eef5' },
+        ticks: { font: { size: 10 }, callback: v => '$' + v.toLocaleString() }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>

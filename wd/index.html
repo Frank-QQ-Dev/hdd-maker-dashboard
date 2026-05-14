@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Western Digital (WD) Financial Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f0f4f8; color:#1a2332; }
+  header { background:linear-gradient(135deg,#003087 0%,#0066cc 100%); color:#fff; padding:24px 32px; }
+  header h1 { font-size:26px; font-weight:700; }
+  header p  { font-size:13px; opacity:.85; margin-top:4px; }
+  .note-banner { background:#FFF3CD; border-left:4px solid #FFA500; padding:10px 32px; font-size:12px; color:#856404; }
+  .container { max-width:1200px; margin:0 auto; padding:24px 20px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+  .kpi { background:#fff; border-radius:10px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.08); border-top:4px solid #003087; }
+  .kpi .label { font-size:12px; color:#666; text-transform:uppercase; letter-spacing:.5px; }
+  .kpi .value { font-size:28px; font-weight:700; margin:6px 0; color:#003087; }
+  .kpi .sub   { font-size:12px; color:#555; }
+  .kpi .cagr  { display:inline-block; font-size:11px; padding:2px 8px; border-radius:12px; margin-top:6px; }
+  .pos { background:#d4edda; color:#155724; }
+  .neg { background:#f8d7da; color:#721c24; }
+  .charts-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:28px; }
+  .chart-full { grid-column:1/-1; }
+  .card { background:#fff; border-radius:10px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .card h3 { font-size:15px; color:#003087; margin-bottom:16px; font-weight:600; }
+  canvas { max-height:320px; }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { background:#003087; color:#fff; padding:10px 12px; text-align:center; }
+  td { padding:9px 12px; border-bottom:1px solid #eee; text-align:right; }
+  td:first-child { text-align:left; font-weight:600; }
+  tr:nth-child(even) { background:#f7f9fc; }
+  tr:hover { background:#eef4ff; }
+  .neg-val { color:#c0392b; }
+  .pos-val { color:#1a7a1a; }
+  footer { text-align:center; padding:20px; color:#888; font-size:12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🟦 Western Digital (WD) – Financial Dashboard</h1>
+  <p>Calendar Year Analysis | CY2020 – CY2025 | Revenue, Gross Profit & Net Income ($M USD)</p>
+</header>
+<div class="note-banner">
+  ⚠️ <strong>Note:</strong> CY2020–CY2024 = Combined WD (HDD + Flash/Sandisk). CY2025 = WD HDD-only (post-Sandisk separation, completed Feb 2024). CY2025 Net Income includes Sandisk-related gains (~$1.7B in H2 2025).
+</div>
+
+<div class="container">
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">CY2025 Revenue (HDD-only)</div>
+      <div class="value">$10,734M</div>
+      <div class="sub">vs CY2024: $15,601M (combined)</div>
+      <span class="cagr neg">CY20-24 CAGR: –1.1%</span>
+    </div>
+    <div class="kpi">
+      <div class="label">CY2025 Gross Profit</div>
+      <div class="value">$4,586M</div>
+      <div class="sub">Gross Margin: 42.7%</div>
+      <span class="cagr pos">CY20-24 GM Avg: 25.0%</span>
+    </div>
+    <div class="kpi">
+      <div class="label">CY2025 Net Income*</div>
+      <div class="value">$4,048M</div>
+      <div class="sub">Net Margin: 37.7%* (incl. Sandisk gains)</div>
+      <span class="cagr pos">CY2024 NI: $1,261M</span>
+    </div>
+  </div>
+
+  <!-- Main Chart -->
+  <div class="card chart-full" style="margin-bottom:20px;">
+    <h3>Annual Revenue, Gross Profit & Net Income with Margin Trends</h3>
+    <canvas id="mainChart"></canvas>
+  </div>
+
+  <!-- Two charts side by side -->
+  <div class="charts-grid">
+    <div class="card">
+      <h3>Margin % Trend</h3>
+      <canvas id="marginChart"></canvas>
+    </div>
+    <div class="card">
+      <h3>Quarterly Revenue Breakdown</h3>
+      <canvas id="qtrChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Annual Table -->
+  <div class="card">
+    <h3>Annual Financial Summary ($M USD)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>CY2020</th><th>CY2021</th><th>CY2022</th>
+            <th>CY2023</th><th>CY2024</th><th>CY2025*</th>
+          </tr>
+        </thead>
+        <tbody id="annualTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<footer>Source: WD SEC EDGAR 10-K/10-Q Filings | Analysis by Claude | *CY2025 HDD-only + Sandisk-related gains</footer>
+
+<script>
+const years = ['CY2020','CY2021','CY2022','CY2023','CY2024','CY2025'];
+const rev    = [16327, 18941, 15752, 11257, 15601, 10734];
+const gp     = [3952,  5905,  4135,   969,  5421,  4586];
+const ni     = [167,   1993,   -93, -2259,  1261,  4048];
+const gm     = [24.2,  31.2,  26.3,   8.6,  34.7,  42.7];
+const nm     = [1.0,   10.5,  -0.6, -20.1,   8.1,  37.7];
+const qData  = {
+  2020: {Q1:[4175,1005,17],   Q2:[4287,1083,148],  Q3:[3922,904,-60],   Q4:[3943,960,62]},
+  2021: {Q1:[4137,1091,197],  Q2:[4920,1566,622],  Q3:[5051,1665,610],  Q4:[4833,1583,564]},
+  2022: {Q1:[4381,1181,25],   Q2:[4528,1445,301],  Q3:[3736,981,27],    Q4:[3107,528,-446]},
+  2023: {Q1:[2803,286,-572],  Q2:[2672,92,-715],   Q3:[2750,99,-685],   Q4:[3032,492,-287]},
+  2024: {Q1:[3457,1001,135],  Q2:[3764,1353,39],   Q3:[4095,1551,493],  Q4:[4285,1516,594]},
+  2025: {Q1:[2294,912,772],   Q2:[2605,1067,252],  Q3:[2818,1227,1182], Q4:[3017,1380,1842]},
+};
+
+// ── Main Chart ─────────────────────────────────────────────
+const ctx = document.getElementById('mainChart').getContext('2d');
+new Chart(ctx, {
+  data: {
+    labels: years,
+    datasets: [
+      {type:'bar',  label:'Revenue ($M)',     data:rev, backgroundColor:'rgba(0,48,135,0.85)', yAxisID:'y', order:3},
+      {type:'bar',  label:'Gross Profit ($M)',data:gp,  backgroundColor:'rgba(0,128,0,0.85)',  yAxisID:'y', order:3},
+      {type:'bar',  label:'Net Income ($M)',  data:ni,  backgroundColor:ni.map(v=>v<0?'rgba(192,57,43,0.85)':'rgba(237,125,49,0.85)'), yAxisID:'y', order:3},
+      {type:'line', label:'Gross Margin %',  data:gm,  borderColor:'#006400', backgroundColor:'transparent', borderWidth:2.5, pointRadius:5, yAxisID:'y2', order:1},
+      {type:'line', label:'Net Margin %',    data:nm,  borderColor:'#c0392b', backgroundColor:'transparent', borderWidth:2.5, borderDash:[6,3], pointRadius:5, yAxisID:'y2', order:1},
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{
+      legend:{position:'bottom'},
+      tooltip:{callbacks:{label:ctx=>{
+        if(ctx.dataset.yAxisID==='y2') return ctx.dataset.label+': '+ctx.raw.toFixed(1)+'%';
+        return ctx.dataset.label+': $'+ctx.raw.toLocaleString()+'M';
+      }}}
+    },
+    scales:{
+      y: {position:'left',  title:{display:true,text:'USD ($M)'}, grid:{color:'#e0e0e0'}},
+      y2:{position:'right', title:{display:true,text:'Margin %'},
+          ticks:{callback:v=>v+'%'}, grid:{drawOnChartArea:false}}
+    }
+  }
+});
+
+// ── Margin Chart ───────────────────────────────────────────
+const mCtx = document.getElementById('marginChart').getContext('2d');
+new Chart(mCtx,{
+  type:'line',
+  data:{
+    labels:years,
+    datasets:[
+      {label:'Gross Margin %', data:gm, borderColor:'#006400', backgroundColor:'rgba(0,100,0,0.08)', fill:true, borderWidth:2, pointRadius:5},
+      {label:'Net Margin %',   data:nm, borderColor:'#c0392b', backgroundColor:'rgba(192,57,43,0.08)', fill:true, borderDash:[6,3], borderWidth:2, pointRadius:5},
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{position:'bottom'}},
+    scales:{y:{ticks:{callback:v=>v+'%'},grid:{color:'#e0e0e0'}}}}
+});
+
+// ── Quarterly Chart ────────────────────────────────────────
+const qCtx = document.getElementById('qtrChart').getContext('2d');
+const qLabels = [];
+const qRev = [];
+Object.entries(qData).forEach(([yr,qs])=>{
+  ['Q1','Q2','Q3','Q4'].forEach(q=>{
+    qLabels.push(yr.slice(2)+' '+q);
+    qRev.push(qs[q][0]);
+  });
+});
+new Chart(qCtx,{
+  type:'bar',
+  data:{labels:qLabels, datasets:[{label:'Revenue ($M)', data:qRev,
+    backgroundColor:qLabels.map((l,i)=>['rgba(0,48,135,0.8)','rgba(0,100,0,0.8)','rgba(237,125,49,0.8)','rgba(192,57,43,0.8)'][i%4]),
+  }]},
+  options:{responsive:true,plugins:{legend:{display:false}},
+    scales:{x:{ticks:{font:{size:9}}},y:{ticks:{callback:v=>'$'+v.toLocaleString()+'M'}}}}
+});
+
+// ── Annual Table ───────────────────────────────────────────
+const tbody = document.getElementById('annualTable');
+const rows = [
+  {name:'Revenue ($M)',     vals:rev, fmt:v=>'$'+v.toLocaleString()},
+  {name:'Gross Profit ($M)',vals:gp,  fmt:v=>'$'+v.toLocaleString()},
+  {name:'Net Income ($M)*', vals:ni,  fmt:v=>'$'+v.toLocaleString()},
+  {name:'Gross Margin %',   vals:gm,  fmt:v=>v.toFixed(1)+'%'},
+  {name:'Net Margin %*',    vals:nm,  fmt:v=>v.toFixed(1)+'%'},
+];
+rows.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = '<td>'+r.name+'</td>' +
+    r.vals.map(v=>`<td class="${v<0?'neg-val':'pos-val'}">${r.fmt(v)}</td>`).join('');
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

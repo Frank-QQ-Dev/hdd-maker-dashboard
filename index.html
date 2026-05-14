@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDD Maker Financial Dashboard</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f0f4f8; min-height:100vh; display:flex; flex-direction:column; }
+  header {
+    background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+    color:#fff; padding:48px 32px; text-align:center;
+  }
+  header h1 { font-size:32px; font-weight:700; margin-bottom:10px; }
+  header p  { font-size:15px; opacity:.8; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:900px; margin:48px auto; padding:0 24px; }
+  .card {
+    background:#fff; border-radius:16px; padding:36px 32px;
+    box-shadow:0 4px 20px rgba(0,0,0,.1); text-decoration:none; color:inherit;
+    transition:transform .2s, box-shadow .2s; display:block;
+  }
+  .card:hover { transform:translateY(-6px); box-shadow:0 12px 32px rgba(0,0,0,.15); }
+  .card .logo { font-size:48px; margin-bottom:16px; }
+  .card h2 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .card p  { font-size:13px; color:#666; line-height:1.6; }
+  .card .badge {
+    display:inline-block; margin-top:16px; padding:6px 14px;
+    border-radius:20px; font-size:12px; font-weight:600;
+  }
+  .stx { border-top:5px solid #00a651; }
+  .stx .badge { background:#e8f5e9; color:#1b5e20; }
+  .wdc { border-top:5px solid #003087; }
+  .wdc .badge { background:#e3f2fd; color:#0d47a1; }
+  .stats { display:flex; gap:20px; margin-top:20px; }
+  .stats span { font-size:12px; color:#888; }
+  .stats strong { display:block; font-size:18px; font-weight:700; color:#333; }
+  footer { text-align:center; padding:24px; color:#aaa; font-size:12px; margin-top:auto; }
+</style>
+</head>
+<body>
+<header>
+  <h1>💽 HDD Maker Financial Dashboard</h1>
+  <p>Calendar Year Financial Analysis · Revenue · Gross Profit · Net Income · CY2020–CY2025</p>
+</header>
+
+<div class="cards">
+  <a href="seagate/" class="card stx">
+    <div class="logo">🟢</div>
+    <h2>Seagate Technology (STX)</h2>
+    <p>HDD leader with fiscal year ending in late June. Data covers CY2020–CY2025 derived from quarterly 10-Q and annual 10-K SEC filings.</p>
+    <div class="stats">
+      <div><strong>$10,058M</strong><span>CY2025 Revenue</span></div>
+      <div><strong>$3,887M</strong><span>Gross Profit</span></div>
+      <div><strong>$1,977M</strong><span>Net Income</span></div>
+    </div>
+    <span class="badge">▶ View Seagate Dashboard</span>
+  </a>
+
+  <a href="wd/" class="card wdc">
+    <div class="logo">🟦</div>
+    <h2>Western Digital (WDC)</h2>
+    <p>Combined HDD + Flash (Sandisk) through CY2024. CY2025 reflects HDD-only after Sandisk separation (Feb 2024). Data from SEC 10-Q/10-K filings.</p>
+    <div class="stats">
+      <div><strong>$10,734M</strong><span>CY2025 Revenue*</span></div>
+      <div><strong>$4,586M</strong><span>Gross Profit</span></div>
+      <div><strong>$4,048M</strong><span>Net Income*</span></div>
+    </div>
+    <span class="badge">▶ View WD Dashboard</span>
+  </a>
+</div>
+
+<footer>
+  Data sourced from SEC EDGAR 10-K / 10-Q filings · Analysis by Claude · *WD CY2025 = HDD-only post-Sandisk spin + includes Sandisk-related gains
+</footer>
+</body>
+</html>
