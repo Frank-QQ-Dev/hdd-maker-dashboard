@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WD HDD Technology &amp; Innovation Report 2025–2026</title>
+<style>
+  :root {
+    --wd-blue:   #0071ce;
+    --wd-dark:   #0a0e1a;
+    --wd-mid:    #0f1626;
+    --card-bg:   #131e30;
+    --text:      #deeaf5;
+    --muted:     #8aafc8;
+    --hi-blue:   #80cfff;
+    --hi-purple: #d8b4fe;
+    --hi-gold:   #ffd580;
+    --hi-green:  #86efac;
+    --warn:      #ff9800;
+    --chip-bg:   #0a1628;
+    --epmr:      #0071ce;
+    --hamr:      #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', -apple-system, sans-serif; background: var(--wd-dark); color: var(--text); line-height: 1.6; }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #050d1e 0%, #0c1e3c 55%, #0071ce 100%);
+    position: relative; overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%230071ce' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hdr { max-width: 1200px; margin: 0 auto; padding: 52px 32px 44px; position: relative; z-index: 1; }
+  .hdr-badge {
+    display: inline-block; margin-bottom: 16px;
+    background: rgba(0,113,206,.2); border: 1px solid var(--wd-blue);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--hi-blue);
+  }
+  .hdr h1 { font-size: clamp(28px,5vw,54px); font-weight: 800; line-height: 1.1; color: #fff; margin-bottom: 12px; }
+  .hdr h1 span { color: #4db8ff; }
+  .hdr-sub  { font-size: 17px; color: #90b8d0; max-width: 680px; margin-bottom: 28px; }
+  .hdr-meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 13px; color: #5a7898; }
+
+  /* ── REBRAND BANNER ── */
+  .rebrand {
+    background: linear-gradient(90deg,rgba(0,113,206,.15),rgba(168,85,247,.1));
+    border: 1px solid rgba(0,113,206,.4); border-radius: 10px;
+    padding: 14px 20px; margin: 24px 32px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: #a0c8e0; max-width: 1200px; margin-left: auto; margin-right: auto;
+  }
+  .rebrand strong { color: #4db8ff; }
+
+  /* ── STATS BAR ── */
+  .stats-bar { background: var(--wd-mid); border-bottom: 1px solid rgba(0,113,206,.2); }
+  .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); }
+  .stat { padding: 22px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.05); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 30px; font-weight: 800; color: var(--wd-blue); line-height: 1; }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+  /* ── LAYOUT ── */
+  main { max-width: 1200px; margin: 0 auto; padding: 44px 32px; }
+  .section { margin-bottom: 52px; }
+  .sec-title {
+    font-size: 22px; font-weight: 700; color: #fff;
+    border-bottom: 2px solid var(--wd-blue); padding-bottom: 10px; margin-bottom: 26px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec-title .ico { width: 28px; height: 28px; background: var(--wd-blue); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+  /* ── DUAL PATH ── */
+  .dual-path { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .path-card { border-radius: 12px; padding: 24px; border: 1px solid rgba(255,255,255,.1); }
+  .path-card.ep { background: linear-gradient(135deg,rgba(0,113,206,.13),rgba(0,113,206,.04)); border-color: rgba(0,113,206,.4); }
+  .path-card.ha { background: linear-gradient(135deg,rgba(168,85,247,.13),rgba(168,85,247,.04)); border-color: rgba(168,85,247,.4); }
+  .path-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .path-bdg { padding: 3px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; letter-spacing: .5px; }
+  .path-bdg.ep { background: rgba(0,113,206,.3); color: var(--hi-blue); }
+  .path-bdg.ha { background: rgba(168,85,247,.3); color: var(--hi-purple); }
+  .path-card h3 { font-size: 17px; font-weight: 700; color: #fff; }
+  .path-card p  { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .path-ul { list-style: none; }
+  .path-ul li { padding: 7px 0 7px 18px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.04); position: relative; }
+  .path-ul li:last-child { border-bottom: none; }
+  .path-ul li::before { content: '▸'; position: absolute; left: 0; }
+  .path-card.ep .path-ul li::before { color: #4db8ff; }
+  .path-card.ha .path-ul li::before { color: #c084fc; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
+  .card { background: var(--card-bg); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 22px; transition: transform .2s, border-color .2s; }
+  .card:hover { transform: translateY(-3px); border-color: rgba(0,113,206,.4); }
+  .card-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .cico { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .cico.b { background: rgba(0,113,206,.15); }
+  .cico.p { background: rgba(168,85,247,.15); }
+  .cico.o { background: rgba(255,152,0,.15); }
+  .cico.g { background: rgba(0,200,83,.15); }
+  .card h3 { font-size: 15px; font-weight: 700; color: #fff; }
+  .card p  { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .tag { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; margin-bottom: 9px; }
+  .tag.b { background: rgba(0,113,206,.15); color: var(--hi-blue); }
+  .tag.p { background: rgba(168,85,247,.15); color: var(--hi-purple); }
+  .tag.o { background: rgba(255,152,0,.15); color: var(--hi-gold); }
+  .tag.g { background: rgba(0,200,83,.15); color: var(--hi-green); }
+
+  /* ── PERF BAR CHART ── */
+  .bar-chart { background: var(--card-bg); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 28px; }
+  .bar-chart h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 22px; }
+  .bar-row { margin-bottom: 16px; }
+  .bar-lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  .bar-lbl strong { font-weight: 700; }
+  .bar-track { height: 13px; background: rgba(255,255,255,.06); border-radius: 7px; overflow: hidden; }
+  .bar-base     { height: 100%; border-radius: 7px; background: linear-gradient(90deg,#0071ce,#40a9ff); }
+  .bar-hbdt     { height: 100%; border-radius: 7px; background: linear-gradient(90deg,#0071ce,#00e5ff); }
+  .bar-combined { height: 100%; border-radius: 7px; background: linear-gradient(90deg,#7c3aed,#a855f7,#c084fc); }
+  .bar-future   { height: 100%; border-radius: 7px; background: linear-gradient(90deg,#ff9800,#ffcc02); }
+  .bar-note { font-size: 12px; color: #3a5068; margin-top: 14px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom,var(--wd-blue),transparent); }
+  .tl-item { position: relative; margin-bottom: 26px; background: var(--card-bg); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 18px 20px; }
+  .tl-item::before { content: ''; position: absolute; left: -25px; top: 22px; width: 12px; height: 12px; background: var(--wd-blue); border-radius: 50%; border: 2px solid var(--wd-dark); }
+  .tl-item.fut::before { background: var(--warn); }
+  .tl-date  { font-size: 12px; font-weight: 700; color: var(--wd-blue); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+  .tl-item.fut .tl-date { color: var(--warn); }
+  .tl-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .tl-body  { font-size: 13px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { background: var(--chip-bg); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: #7090a8; }
+  .chip.b { border-color: rgba(0,113,206,.4); color: var(--hi-blue); }
+  .chip.p { border-color: rgba(168,85,247,.4); color: var(--hi-purple); }
+  .chip.o { border-color: rgba(255,152,0,.4); color: var(--hi-gold); }
+
+  /* ── PRODUCT TABLE ── */
+  .pt { width: 100%; border-collapse: collapse; }
+  .pt th { background: rgba(0,113,206,.1); color: var(--wd-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(0,113,206,.3); }
+  .pt td { padding: 12px 16px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.05); }
+  .pt tr:hover td { background: rgba(255,255,255,.02); color: #c8e4ff; }
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .badge.prod { background: rgba(0,200,83,.15); color: var(--hi-green); }
+  .badge.qual { background: rgba(0,113,206,.15); color: var(--hi-blue); }
+  .badge.fut  { background: rgba(255,152,0,.15); color: var(--hi-gold); }
+  .badge.lab  { background: rgba(168,85,247,.15); color: var(--hi-purple); }
+
+  /* ── TECH GRID ── */
+  .tech-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .tech-item { background: var(--card-bg); border: 1px solid rgba(255,255,255,.07); border-radius: 10px; padding: 16px; }
+  .tech-name { font-size: 13px; font-weight: 700; color: #4db8ff; margin-bottom: 6px; }
+  .tech-item p { font-size: 12px; color: var(--muted); }
+
+  /* ── HIGHLIGHT ── */
+  .hl-box { background: linear-gradient(135deg,rgba(0,113,206,.1),rgba(0,113,206,.03)); border: 1px solid rgba(0,113,206,.3); border-radius: 12px; padding: 22px 26px; }
+  .hl-box.p { background: linear-gradient(135deg,rgba(168,85,247,.1),rgba(168,85,247,.03)); border-color: rgba(168,85,247,.3); }
+  .hl-box h3 { font-size: 15px; font-weight: 700; color: var(--hi-blue); margin-bottom: 12px; }
+  .hl-box.p h3 { color: #c084fc; }
+  .hl-list { list-style: none; }
+  .hl-list li { padding: 7px 0 7px 20px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.04); position: relative; }
+  .hl-list li:last-child { border-bottom: none; }
+  .hl-list li::before { content: '→'; position: absolute; left: 0; color: var(--wd-blue); }
+  .hl-box.p .hl-list li::before { color: var(--hamr); }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* ── QUOTE ── */
+  .quote { background: var(--card-bg); border-left: 4px solid var(--wd-blue); border-radius: 0 12px 12px 0; padding: 18px 22px; }
+  .quote.p { border-left-color: var(--hamr); }
+  .quote p    { font-size: 14px; color: var(--muted); font-style: italic; line-height: 1.75; }
+  .quote cite { display: block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--wd-blue); font-style: normal; }
+  .quote.p cite { color: #c084fc; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--wd-mid); border-top: 1px solid rgba(0,113,206,.2); padding: 24px 32px; text-align: center; font-size: 12px; color: #2a4060; }
+  footer a { color: var(--wd-blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media(max-width:700px) { .dual-path,.two-col,.stats-inner { grid-template-columns:1fr; } .tech-grid { grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px) { .stats-inner { grid-template-columns:1fr 1fr; } }
+
+  strong { color: #c8e4ff; }
+  .mb-lg { margin-bottom: 40px; }
+  .mb-md { margin-bottom: 28px; }
+  .gap-top { margin-top: 20px; }
+</style>
+</head>
+<body>
+<div style="background:#060e1c;border-bottom:1px solid rgba(0,113,206,.25);display:flex;align-items:center;gap:0;padding:0 32px;">
+  <a href="../" style="color:#8aafc8;font-size:0.78rem;padding:10px 14px 10px 0;text-decoration:none;opacity:.7;">← All Companies</a>
+  <span style="color:#1a2d4a;margin-right:4px;">|</span>
+  <a href="index.html" id="nav-fin"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#deeaf5;">
+    📊 Financial Report
+  </a>
+  <a href="technology.html" id="nav-tech"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#deeaf5;">
+    💡 Technology & Innovation
+  </a>
+</div>
+<script>
+  (function(){
+    var p=location.pathname;
+    var fin=document.getElementById('nav-fin');
+    var tec=document.getElementById('nav-tech');
+    if(p.endsWith('technology.html')){
+      tec.style.borderBottomColor='#0071ce';tec.style.color='#80cfff';
+    } else {
+      fin.style.borderBottomColor='#0071ce';fin.style.color='#80cfff';
+    }
+  })();
+</script>
+
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="hdr">
+    <div class="hdr-badge">🔬 HDD Technology Research</div>
+    <h1>WD <span>Innovation</span> Deep Dive</h1>
+    <p class="hdr-sub">Dual-Path ePMR + HAMR Strategy, Performance Breakthroughs, Power Innovation &amp; AI-Era Storage Roadmap — Innovation Day 2026 Full Analysis</p>
+    <div class="hdr-meta">
+      <span>📅 Data as of May 2026</span>
+      <span>🏢 NASDAQ: WDC</span>
+      <span>📍 San Jose, California</span>
+      <span>🔄 Formerly Western Digital · Rebranded as WD in February 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ REBRAND BANNER ═══════════ -->
+<div class="rebrand">
+  <span style="font-size:22px">🔄</span>
+  <div><strong>Brand Transformation: Western Digital → WD</strong> — At Innovation Day 2026 (Feb 3, New York), the company formally repositioned as "WD," becoming a dedicated storage infrastructure partner for the AI-driven data economy. <strong>90%</strong> of revenue is now driven by AI and cloud.</div>
+</div>
+
+<!-- ═══════════ STATS BAR ═══════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n">40TB</div><div class="stat-l">UltraSMR ePMR (In Qualification)</div></div>
+    <div class="stat"><div class="stat-n">100TB</div><div class="stat-l">HAMR Target Capacity (2029)</div></div>
+    <div class="stat"><div class="stat-n">4×</div><div class="stat-l">HBDT + Dual Pivot Throughput Gain</div></div>
+    <div class="stat"><div class="stat-n">90%</div><div class="stat-l">Revenue from AI &amp; Cloud</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+  <!-- § 1  DUAL-PATH STRATEGY -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">⚔️</span>Core Strategy: Parallel ePMR + HAMR Innovation Paths</div>
+    <div class="dual-path mb-md">
+      <div class="path-card ep">
+        <div class="path-hdr">
+          <span class="path-bdg ep">ePMR</span>
+          <h3>Energy-Assisted PMR</h3>
+        </div>
+        <p>Microwave-assisted writing on a proven PMR foundation. WD continues extracting every viable capacity gain from ePMR, with a roadmap extending to <strong>60 TB</strong>, offering customers a fast-deploy, well-validated upgrade path.</p>
+        <ul class="path-ul">
+          <li>Current flagship: Ultrastar DC HC590 — <strong>26 TB</strong></li>
+          <li>40 TB UltraSMR ePMR — qualifying with 2 hyperscalers, <strong>H2 2026 volume production</strong></li>
+          <li>ePMR roadmap extends to <strong>60 TB</strong> (leveraging HAMR innovations without adding power)</li>
+          <li>Shared architecture with HAMR — improves manufacturing efficiency and yield</li>
+          <li>Customers upgrade without infrastructure re-architecture</li>
+        </ul>
+      </div>
+      <div class="path-card ha">
+        <div class="path-hdr">
+          <span class="path-bdg ha">HAMR</span>
+          <h3>Heat-Assisted Magnetic Recording</h3>
+        </div>
+        <p>Laser heating overcomes the magnetic recording trilemma (superparamagnetic limit), enabling higher-anisotropy media and dramatically smaller bit sizes. WD believes the optimal HAMR inflection point is <strong>40 TB and above</strong>.</p>
+        <ul class="path-ul">
+          <li>HAMR HDD qualifications underway with <strong>2 hyperscale customers</strong></li>
+          <li>Volume production ramp planned for <strong>2027</strong></li>
+          <li>Roadmap: <strong>100 TB by 2029</strong></li>
+          <li>Shares common architecture with ePMR — lower BOM, better yields</li>
+          <li>TSA, OptiNAND, and UltraSMR innovations carried forward to HAMR platform</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hl-box">
+      <h3>🎯 Why Two Paths? Customer-Controlled Technology Adoption</h3>
+      <ul class="hl-list">
+        <li>Hyperscalers and enterprises choose ePMR or HAMR on <strong>their own timelines</strong> — no forced technology transitions</li>
+        <li>Both paths share the same underlying architecture, giving WD manufacturing flexibility and superior yield economics</li>
+        <li>ePMR leads: 40 TB UltraSMR qualifications now, H2 2026 volume; HAMR follows: 2027 ramp → 100 TB by 2029</li>
+        <li>Overlapping technology paths deliver continuous, predictable capacity growth customers can plan around</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- § 2  PERFORMANCE BREAKTHROUGHS -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">⚡</span>Performance Breakthroughs: Flash-Like Throughput at HDD Economics</div>
+    <div class="bar-chart mb-md">
+      <h3>Sequential Throughput Evolution (MB/s) — Stacking Innovation Technologies</h3>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>Today's baseline HDD (Ultrastar DC HC590, 26 TB)</span><strong style="color:#4db8ff">300 MB/s</strong></div>
+        <div class="bar-track"><div class="bar-base" style="width:6.25%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>+ High Bandwidth Drive Technology (HBDT, 2-track)</span><strong style="color:#4db8ff">600 MB/s (2×)</strong></div>
+        <div class="bar-track"><div class="bar-hbdt" style="width:12.5%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>HBDT (2-track) + Dual Pivot Technology</span><strong style="color:#c084fc">1,200 MB/s (4×)</strong></div>
+        <div class="bar-track"><div class="bar-combined" style="width:25%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>▶ Future: HBDT (8-track) + Dual Pivot (theoretical max)</span><strong style="color:#ffd580">~4,800 MB/s (16×)</strong></div>
+        <div class="bar-track"><div class="bar-future" style="width:100%"></div></div>
+      </div>
+      <p class="bar-note">▲ Orange bar = theoretical target. HBDT is already with customers for validation (2026). Dual Pivot planned for 2028.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-hdr"><div class="cico b">📡</div><h3>High Bandwidth Drive Technology (HBDT)</h3></div>
+        <span class="tag b">Industry First</span>
+        <p>Leveraging the precise track-following capability of the Triple Stage Actuator (TSA), HBDT enables multiple read/write heads to operate <strong>simultaneously</strong> on paired tracks. Throughput scales linearly: 2-track = 2×, 8-track = 8×.<br><br>
+        WD demonstrated live dual-track simultaneous read/write at <strong>Innovation Day 2026</strong>. Hardware is already in customer hands for validation today.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico p">🔀</div><h3>Dual Pivot Technology (DPT)</h3></div>
+        <span class="tag p">Available 2028</span>
+        <p>A <strong>second actuator on a separate pivot</strong> at the opposite end of the drive (unlike previous vertically-stacked designs that sacrificed capacity). Distributing heads between two pivots allows reduced disk spacing, more platters, and <strong>higher capacity — while simultaneously increasing performance</strong>.<br><br>
+        Currently in the lab; commercial availability expected in 2028.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- § 3  CAPACITY ROADMAP TIMELINE -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🗺️</span>Capacity Roadmap Timeline</div>
+    <div class="timeline mb-lg">
+
+      <div class="tl-item">
+        <div class="tl-date">Now — H1 2026</div>
+        <div class="tl-title">40 TB UltraSMR ePMR — World's Highest Capacity, In Customer Qualification</div>
+        <div class="tl-body">WD announced that the world's highest-capacity 40 TB UltraSMR ePMR HDD is currently in qualification with two hyperscale customers, with volume production planned for <strong>H2 2026</strong>. It leverages HAMR media innovations while keeping power consumption unchanged.</div>
+        <div class="chips">
+          <span class="chip b">40 TB ePMR</span><span class="chip">UltraSMR</span>
+          <span class="chip">2 hyperscalers</span><span class="chip">H2 2026 volume</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">February 3, 2026 — New York City</div>
+        <div class="tl-title">Innovation Day 2026 — Landmark Strategy &amp; Technology Announcements</div>
+        <div class="tl-body">WD hosted Innovation Day 2026 in New York, unveiling four strategic pillars — Capacity, Performance, Power, and Platform — alongside the WD rebrand. HAMR HDD qualifications were announced simultaneously with the new 3–5 year financial model.</div>
+        <div class="chips">
+          <span class="chip b">Innovation Day</span><span class="chip">Rebrand to WD</span>
+          <span class="chip">4 Innovation Pillars</span>
+        </div>
+      </div>
+
+      <div class="tl-item fut">
+        <div class="tl-date">▶ 2027 (Projected)</div>
+        <div class="tl-title">HAMR Volume Production + Power-Optimized HDD Qualification + Platform API Launch</div>
+        <div class="tl-body">HAMR HDD volume production ramp; Power-optimized HDDs (20% less power) enter customer qualification; WD's intelligent open-API software layer for 200+ PB customers is targeted for launch — bringing hyperscale storage economics to a broader set of customers.</div>
+        <div class="chips">
+          <span class="chip o">HAMR volume</span>
+          <span class="chip o">Power-opt. HDD qual.</span>
+          <span class="chip o">Platform API launch</span>
+        </div>
+      </div>
+
+      <div class="tl-item fut">
+        <div class="tl-date">▶ 2028 (Projected)</div>
+        <div class="tl-title">Dual Pivot Technology Ships + ePMR 60 TB</div>
+        <div class="tl-body">Dual Pivot Technology reaches commercial availability, providing 2× sequential IO gains. ePMR roadmap extends to 60 TB. Combined HBDT + DPT delivers <strong>4× throughput</strong> (300 → 1,200 MB/s), restoring throughput-per-TB parity at 100 TB scale.</div>
+        <div class="chips">
+          <span class="chip o">DPT ships</span>
+          <span class="chip o">ePMR 60 TB</span>
+          <span class="chip o">4× throughput</span>
+        </div>
+      </div>
+
+      <div class="tl-item fut">
+        <div class="tl-date">▶ 2029 (Projected)</div>
+        <div class="tl-title">HAMR Scales to 100 TB</div>
+        <div class="tl-body">HAMR capacity extends to 100 TB. Combined with 8-track HBDT + Dual Pivot, future 100 TB HDDs would deliver theoretical throughput near <strong>4,800 MB/s</strong> — flash-class performance with HDD economics. IO-per-TB ratio maintained at today's 26 TB HDD levels.</div>
+        <div class="chips">
+          <span class="chip o">HAMR 100 TB</span>
+          <span class="chip o">IO/TB ratio preserved</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- § 4  PRODUCT PORTFOLIO -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">💿</span>Product Portfolio Overview</div>
+    <table class="pt mb-lg">
+      <thead>
+        <tr><th>Product</th><th>Technology</th><th>Capacity</th><th>Target Market</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Ultrastar DC HC590</strong></td><td>ePMR CMR</td><td>26 TB</td><td>Data centers, cloud</td><td><span class="badge prod">In Production</span></td></tr>
+        <tr><td><strong>Ultrastar DC 40 TB UltraSMR</strong></td><td>UltraSMR ePMR</td><td>40 TB</td><td>Hyperscale cloud</td><td><span class="badge qual">In Qualification</span></td></tr>
+        <tr><td><strong>HAMR HDD (Gen 1)</strong></td><td>HAMR</td><td>40 TB+</td><td>Hyperscale AI storage</td><td><span class="badge qual">Qual. — 2027 volume</span></td></tr>
+        <tr><td><strong>ePMR 60 TB (roadmap)</strong></td><td>ePMR + HAMR innovations</td><td>60 TB (target)</td><td>Hyperscale cloud</td><td><span class="badge fut">Roadmap</span></td></tr>
+        <tr><td><strong>Power-Optimized HDD</strong></td><td>ePMR / HAMR</td><td>High capacity</td><td>AI cold-data tiering</td><td><span class="badge fut">2027 qualification</span></td></tr>
+        <tr><td><strong>HAMR 100 TB</strong></td><td>HAMR + DPT + HBDT</td><td>100 TB</td><td>AI hyperscale</td><td><span class="badge lab">Target: 2029</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- § 5  TECHNOLOGY MATRIX -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🧬</span>WD HDD Core Technology Matrix</div>
+    <div class="tech-grid mb-lg">
+      <div class="tech-item">
+        <div class="tech-name">🌡️ HAMR</div>
+        <p>Heat-Assisted Magnetic Recording — laser-heated media enables smaller bit sizes. WD volume production in 2027; path to 100 TB by 2029.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">⚡ ePMR</div>
+        <p>Energy-Assisted PMR — proven platform continuously expanded. Roadmap to 60 TB, delivering seamless customer upgrades.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">🌊 UltraSMR</div>
+        <p>Ultra Shingled Magnetic Recording — software-optimized SMR enabling 40 TB ePMR flagship. Deployed with leading hyperscalers.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">📡 HBDT</div>
+        <p>High Bandwidth Drive Technology — simultaneous multi-track R/W. 2-track live demo at Innovation Day 2026; path to 8-track (8× gain).</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">🔀 Dual Pivot</div>
+        <p>Second actuator on independent pivot — reduces disk spacing, adds platters, simultaneously raises capacity AND performance. Ships 2028.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">🎯 Triple Stage Actuator</div>
+        <p>Three-stage precision actuator providing ultra-fine track positioning — the mechanical enabler underpinning HBDT multi-track access.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">💾 OptiNAND</div>
+        <p>Integrated iNAND flash architecture reimagining the HDD storage stack, boosting capacity and performance without power penalties.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">🔒 ArmorCache</div>
+        <p>Power-loss protection for heavy workloads (cloud storage, big data, AI systems) — improves write performance and data integrity.</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">🌬️ HelioSeal</div>
+        <p>Helium-sealed enclosure reducing disk drag, enabling the 11-disk 3.5" platform. 180M+ drives shipped since 2013.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- § 6  POWER + PLATFORM -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🌱</span>Power Innovation &amp; Platform Expansion</div>
+    <div class="two-col mb-md">
+      <div class="hl-box">
+        <h3>⚡ Power-Optimized HDD (Qualification 2027)</h3>
+        <ul class="hl-list">
+          <li><strong>20% less power</strong> than conventional capacity HDDs</li>
+          <li>Purpose-built for AI cold data that still needs sub-second access</li>
+          <li>Bridges the gap between warm and cold storage tiers</li>
+          <li>Maintains same 3.5" form factor — no rack re-architecture required</li>
+          <li>Trades minimal random IO for higher capacity and substantially lower power</li>
+          <li>Enables economically sustainable AI data storage at scale</li>
+        </ul>
+      </div>
+      <div class="hl-box p">
+        <h3>🧩 Platform Expansion — Intelligent API Layer (2027)</h3>
+        <ul class="hl-list">
+          <li>Targets customers at <strong>200+ petabyte scale</strong> — cloud and enterprise</li>
+          <li>Open API software layer extends hyperscale storage economics more broadly</li>
+          <li>Accelerates deployment of UltraSMR, ePMR, and HAMR HDDs</li>
+          <li>Dramatically reduces qualification risk and time-to-production</li>
+          <li>No architectural disruption — customers gain hyperscale economics on existing infra</li>
+          <li>Expands WD's Platforms business into a new software-enabled revenue stream</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- § 7  INNOVATION DAY 4 PILLARS -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🎯</span>Innovation Day 2026: Four Strategic Pillars</div>
+    <div class="card-grid mb-md">
+      <div class="card">
+        <div class="card-hdr"><div class="cico b">📦</div><h3>Capacity Innovation</h3></div>
+        <span class="tag b">Pillar 1</span>
+        <p>40 TB UltraSMR in qualification (H2 2026 volume); HAMR dual path to 100 TB (2029); ePMR roadmap to 60 TB leveraging HAMR innovations without power increase. Clear, overlapping paths for uninterrupted customer planning.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico p">⚡</div><h3>Performance Breakthrough</h3></div>
+        <span class="tag p">Pillar 2</span>
+        <p>HBDT: 2× bandwidth today, path to 8×; Dual Pivot: 2× sequential IO + higher capacity; Combined: <strong>4× throughput</strong> (300 → 1,200 MB/s). Future 8-track HBDT + DPT theoretical maximum: ~4,800 MB/s — flash-class performance at HDD TCO.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico g">🌱</div><h3>Power Optimization</h3></div>
+        <span class="tag g">Pillar 3</span>
+        <p>New power-optimized HDD uses <strong>20% less power</strong>, shrinking the gap between warm and cold storage. Enables customers to build lower-cost tiers and improve sustainability for AI-scale data — qualification in 2027.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico o">🧠</div><h3>Platform Intelligence</h3></div>
+        <span class="tag o">Pillar 4</span>
+        <p>Intelligent open-API software layer for 200+ PB customers — delivering hyperscale storage efficiency to a broader audience, accelerating technology adoption, and eliminating architectural disruption. Launch targeted for 2027.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- § 8  EXECUTIVE QUOTES -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">💬</span>Executive Perspectives</div>
+    <div class="quote mb-md">
+      <p>"For the past year, WD has remained continuously focused on execution and accelerating innovation, which has enabled us to truly reimagine the hard drive to meet the requirements of AI. Today, we are showcasing innovation that reflects our deep connection to our customers and how we are meeting demand for capacity, scale, quality, enhanced performance, and ease of technology adoption."</p>
+      <cite>— Irving Tan, Chief Executive Officer, WD (Innovation Day 2026, February 3, 2026)</cite>
+    </div>
+    <div class="quote p">
+      <p>"WD Innovation Day is where our customer-centric business transformation meets our breakthrough technology for the AI era. We've organized around how customers build and scale AI infrastructure. WD is challenging conventional storage assumptions and removing the complexity and cost barriers that limit their AI-driven growth. Our capacity, performance, power efficiency, and platform innovations solidify our position as the innovation partner for the AI-driven data economy."</p>
+      <cite>— Ahmed Shihab, Chief Product Officer, WD (Innovation Day 2026, February 3, 2026)</cite>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <p>Sources:
+    <a href="https://www.westerndigital.com/company/newsroom/press-releases/2026/2026-02-03-western-digital-accelerates-storage-innovation-for-ai-era" target="_blank">WD Innovation Day 2026 Press Release</a> ·
+    <a href="https://www.westerndigital.com/company/innovation/hdd-innovation" target="_blank">WD HDD Innovation Page</a> ·
+    <a href="https://blog.westerndigital.com/hamr-technology-future-hdd-storage-capacity" target="_blank">The HAMR Future (WD Blog)</a> ·
+    <a href="https://blog.westerndigital.com/performance-optimized-hdd-4x-throughput-hbdt-dual-pivot/" target="_blank">Performance-Optimized HDD (WD Blog)</a> ·
+    <a href="https://investor.wdc.com/" target="_blank">investor.wdc.com</a>
+  </p>
+  <p style="margin-top:8px">Report compiled by Claude AI from official WD publications · Generated: May 14, 2026</p>
+</footer>
+
+</body>
+</html>

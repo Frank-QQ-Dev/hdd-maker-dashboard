@@ -175,6 +175,31 @@
   </style>
 </head>
 <body>
+<div style="background:#0f1a2e;border-bottom:1px solid rgba(0,166,81,.25);display:flex;align-items:center;gap:0;padding:0 32px;">
+  <a href="../" style="color:#a0b4c8;font-size:0.78rem;padding:10px 14px 10px 0;text-decoration:none;opacity:.7;">← All Companies</a>
+  <span style="color:#2a4a6a;margin-right:4px;">|</span>
+  <a href="index.html" id="nav-fin"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#e0eaf5;">
+    📊 Financial Report
+  </a>
+  <a href="technology.html" id="nav-tech"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#e0eaf5;">
+    💡 Technology & Innovation
+  </a>
+</div>
+<script>
+  (function(){
+    var p=location.pathname;
+    var fin=document.getElementById('nav-fin');
+    var tec=document.getElementById('nav-tech');
+    if(p.endsWith('technology.html')){
+      tec.style.borderBottomColor='#00a651';tec.style.color='#00d966';
+    } else {
+      fin.style.borderBottomColor='#00a651';fin.style.color='#00d966';
+    }
+  })();
+</script>
+
 
 <header>
   <div class="logo">STX</div>

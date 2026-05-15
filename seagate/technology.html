@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seagate HDD Technology &amp; Innovation Report 2025–2026</title>
+<style>
+  :root {
+    --sg-green: #00ae42;
+    --sg-dark:  #1a1a2e;
+    --sg-mid:   #16213e;
+    --card-bg:  #1e2a3a;
+    --text:     #e8f4f8;
+    --muted:    #a8c5d8;
+    --hi:       #7bffaa;
+    --warn:     #ffb300;
+    --chip-bg:  #0d2137;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', -apple-system, sans-serif; background: var(--sg-dark); color: var(--text); line-height: 1.6; }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0a1628 0%, #0f3460 55%, #00ae42 100%);
+    position: relative; overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%2300ae42' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hdr { max-width: 1200px; margin: 0 auto; padding: 52px 32px 44px; position: relative; z-index: 1; }
+  .hdr-badge {
+    display: inline-block; margin-bottom: 16px;
+    background: rgba(0,174,66,.2); border: 1px solid var(--sg-green);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--hi);
+  }
+  .hdr h1 { font-size: clamp(28px,5vw,54px); font-weight: 800; line-height: 1.1; color: #fff; margin-bottom: 12px; }
+  .hdr h1 span { color: var(--sg-green); }
+  .hdr-sub  { font-size: 17px; color: #b0d4e0; max-width: 660px; margin-bottom: 28px; }
+  .hdr-meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 13px; color: #7090a0; }
+
+  /* ── STATS BAR ── */
+  .stats-bar { background: var(--sg-mid); border-bottom: 1px solid rgba(0,174,66,.2); }
+  .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); }
+  .stat { padding: 22px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.06); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 30px; font-weight: 800; color: var(--sg-green); line-height: 1; }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+  /* ── LAYOUT ── */
+  main { max-width: 1200px; margin: 0 auto; padding: 44px 32px; }
+  .section { margin-bottom: 52px; }
+
+  .sec-title {
+    font-size: 22px; font-weight: 700; color: #fff;
+    border-bottom: 2px solid var(--sg-green); padding-bottom: 10px; margin-bottom: 26px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec-title .ico {
+    width: 28px; height: 28px; background: var(--sg-green); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(270px,1fr)); gap: 20px; }
+  .card {
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px; padding: 22px; transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: rgba(0,174,66,.4); }
+  .card-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .cico { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .cico.g { background: rgba(0,174,66,.15); }
+  .cico.b { background: rgba(0,120,200,.15); }
+  .cico.o { background: rgba(255,152,0,.15); }
+  .cico.p { background: rgba(156,39,176,.15); }
+  .card h3 { font-size: 15px; font-weight: 700; color: #fff; }
+  .card p  { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .tag {
+    display: inline-block; border-radius: 4px; padding: 2px 8px;
+    font-size: 11px; font-weight: 700; margin-bottom: 9px;
+  }
+  .tag.g { background: rgba(0,174,66,.15); color: var(--hi); }
+  .tag.b { background: rgba(0,120,200,.15); color: #80d0ff; }
+  .tag.o { background: rgba(255,152,0,.15); color: #ffd54f; }
+
+  /* ── ROADMAP BAR CHART ── */
+  .bar-chart { background: var(--card-bg); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 28px; }
+  .bar-chart h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 22px; }
+  .bar-row { margin-bottom: 16px; }
+  .bar-lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  .bar-lbl strong { color: var(--sg-green); }
+  .bar-track { height: 13px; background: rgba(255,255,255,.06); border-radius: 7px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg,var(--sg-green),#00e676); }
+  .bar-fill.proj { background: linear-gradient(90deg,#ffb300,#ffe082); }
+  .bar-note { font-size: 12px; color: #3a5a6a; margin-top: 14px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom,var(--sg-green),transparent); }
+  .tl-item { position: relative; margin-bottom: 26px; background: var(--card-bg); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 18px 20px; }
+  .tl-item::before { content: ''; position: absolute; left: -25px; top: 22px; width: 12px; height: 12px; background: var(--sg-green); border-radius: 50%; border: 2px solid var(--sg-dark); }
+  .tl-item.fut::before { background: var(--warn); }
+  .tl-date  { font-size: 12px; font-weight: 700; color: var(--sg-green); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+  .tl-item.fut .tl-date { color: var(--warn); }
+  .tl-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .tl-body  { font-size: 13px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { background: var(--chip-bg); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: #90b8c8; }
+  .chip.g { border-color: rgba(0,174,66,.4); color: var(--hi); }
+  .chip.o { border-color: rgba(255,179,0,.4); color: #ffd54f; }
+
+  /* ── PRODUCT TABLE ── */
+  .pt { width: 100%; border-collapse: collapse; }
+  .pt th { background: rgba(0,174,66,.1); color: var(--sg-green); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(0,174,66,.3); }
+  .pt td { padding: 12px 16px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.05); }
+  .pt tr:hover td { background: rgba(255,255,255,.02); color: #e0f0ff; }
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .badge.prod { background: rgba(0,174,66,.15); color: var(--hi); }
+  .badge.samp { background: rgba(0,120,200,.15); color: #80d0ff; }
+  .badge.qual { background: rgba(255,179,0,.15); color: #ffd54f; }
+  .badge.fut  { background: rgba(156,39,176,.15); color: #ce93d8; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .hl-box { background: linear-gradient(135deg,rgba(0,174,66,.1),rgba(0,174,66,.03)); border: 1px solid rgba(0,174,66,.3); border-radius: 12px; padding: 22px 26px; }
+  .hl-box h3 { font-size: 15px; font-weight: 700; color: var(--hi); margin-bottom: 12px; }
+  .hl-list { list-style: none; }
+  .hl-list li { padding: 7px 0 7px 20px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.04); position: relative; }
+  .hl-list li:last-child { border-bottom: none; }
+  .hl-list li::before { content: '→'; position: absolute; left: 0; color: var(--sg-green); }
+
+  /* ── TWO-COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* ── QUOTE ── */
+  .quote { background: var(--card-bg); border-left: 4px solid var(--sg-green); border-radius: 0 12px 12px 0; padding: 18px 22px; }
+  .quote p    { font-size: 14px; color: var(--muted); font-style: italic; line-height: 1.75; }
+  .quote cite { display: block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--sg-green); font-style: normal; }
+
+  /* ── FINANCIAL TABLE ── */
+  .fin { width: 100%; border-collapse: collapse; }
+  .fin th { background: rgba(0,174,66,.08); color: var(--sg-green); font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 11px 16px; text-align: left; }
+  .fin td { padding: 11px 16px; font-size: 13px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,.05); }
+  .fin td:last-child { color: var(--hi); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--sg-mid); border-top: 1px solid rgba(0,174,66,.2); padding: 24px 32px; text-align: center; font-size: 12px; color: #3a5060; }
+  footer a { color: var(--sg-green); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media(max-width:700px) { .stats-inner,.two-col { grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px) { .stats-inner { grid-template-columns:1fr 1fr; } .two-col { grid-template-columns:1fr; } }
+
+  strong { color: #d0e8f8; }
+  .mb-lg { margin-bottom: 40px; }
+  .mb-md { margin-bottom: 28px; }
+</style>
+</head>
+<body>
+<div style="background:#0f1a2e;border-bottom:1px solid rgba(0,166,81,.25);display:flex;align-items:center;gap:0;padding:0 32px;">
+  <a href="../" style="color:#a0b4c8;font-size:0.78rem;padding:10px 14px 10px 0;text-decoration:none;opacity:.7;">← All Companies</a>
+  <span style="color:#2a4a6a;margin-right:4px;">|</span>
+  <a href="index.html" id="nav-fin"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#e0eaf5;">
+    📊 Financial Report
+  </a>
+  <a href="technology.html" id="nav-tech"
+     style="font-size:0.82rem;font-weight:600;padding:11px 18px;text-decoration:none;border-bottom:3px solid transparent;transition:.2s;color:#e0eaf5;">
+    💡 Technology & Innovation
+  </a>
+</div>
+<script>
+  (function(){
+    var p=location.pathname;
+    var fin=document.getElementById('nav-fin');
+    var tec=document.getElementById('nav-tech');
+    if(p.endsWith('technology.html')){
+      tec.style.borderBottomColor='#00a651';tec.style.color='#00d966';
+    } else {
+      fin.style.borderBottomColor='#00a651';fin.style.color='#00d966';
+    }
+  })();
+</script>
+
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="hdr">
+    <div class="hdr-badge">🔬 HDD Technology Research</div>
+    <h1>Seagate <span>Innovation</span> Deep Dive</h1>
+    <p class="hdr-sub">HAMR / Mozaic Platform Technology, Product Roadmap &amp; AI-Era Storage Strategy — 2025 to 2026 Latest Developments</p>
+    <div class="hdr-meta">
+      <span>📅 Data as of May 2026</span>
+      <span>🏢 NASDAQ: STX</span>
+      <span>📍 Fremont, California</span>
+      <span>🕰️ Founded 1978 · 46+ years of storage innovation</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ STATS BAR ═══════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n">44TB</div><div class="stat-l">Latest Flagship (Mozaic 4+)</div></div>
+    <div class="stat"><div class="stat-n">100TB</div><div class="stat-l">2032 Capacity Target</div></div>
+    <div class="stat"><div class="stat-n">1M+</div><div class="stat-l">HAMR Drives Shipped</div></div>
+    <div class="stat"><div class="stat-n">4+TB</div><div class="stat-l">Mozaic 4+ Per-Disk Density</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+  <!-- § 1  CORE TECHNOLOGY -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">⚙️</span>Core Technology: HAMR &amp; the Mozaic Platform</div>
+    <div class="card-grid mb-lg">
+      <div class="card">
+        <div class="card-hdr"><div class="cico g">🔥</div><h3>HAMR — Heat-Assisted Magnetic Recording</h3></div>
+        <span class="tag g">Foundational Technology</span>
+        <p>Seagate is the <strong>world's only manufacturer</strong> shipping HAMR drives at hyperscale volumes. A nano-laser momentarily heats a tiny spot on the disk, reducing magnetic anisotropy so the write head can flip individual bits on ultra-high-density media. The spot cools within nanoseconds, locking data in place and enabling unprecedented areal density gains.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico b">💎</div><h3>The Mozaic Platform Family</h3></div>
+        <span class="tag b">Platform Architecture</span>
+        <p>Mozaic is Seagate's generational HAMR platform: <strong>Mozaic 3+</strong> (3.6 TB/disk, in production) → <strong>Mozaic 4+</strong> (4+ TB/disk, volume production 2026) → <strong>Mozaic 5+</strong> (lab demonstrated) → target <strong>10 TB/disk</strong> by 2028 → enabling <strong>100 TB HDDs</strong> by 2032.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico o">🏭</div><h3>Vertically Integrated Photonics</h3></div>
+        <span class="tag o">Competitive Moat</span>
+        <p>Seagate designs and manufactures its own nanophotonic laser components in-house. This vertical integration delivers supply chain resilience, shortens customer qualification timelines, and sustains predictable manufacturing economics — a capability no competitor can replicate at scale.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico p">📐</div><h3>Next-Gen Suspension Architecture + SoC</h3></div>
+        <span class="tag g">Mozaic 4+ New</span>
+        <p>Mozaic 4+ incorporates a redesigned suspension architecture and an enhanced system-on-chip that enables <strong>precise recording at higher densities</strong> while maintaining enterprise-class reliability — without requiring disruptive architectural changes in existing data centers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- § 2  CAPACITY ROADMAP -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🗺️</span>Capacity Roadmap</div>
+    <div class="bar-chart mb-lg">
+      <h3>Mozaic Platform — Areal Density Evolution (TB per disk)</h3>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>Mozaic 3+ (2024–2025) — Exos M</span><strong>3.6 TB/disk → up to 36 TB</strong></div>
+        <div class="bar-track"><div class="bar-fill" style="width:36%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>Mozaic 4+ (2026, volume production)</span><strong>4+ TB/disk → up to 44 TB</strong></div>
+        <div class="bar-track"><div class="bar-fill" style="width:44%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>Lab Demonstration (2024)</span><strong>6.5 TB/disk</strong></div>
+        <div class="bar-track"><div class="bar-fill" style="width:65%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl"><span>▶ Target: 10 TB/disk (est. 2028) → Mozaic 5+ path</span><strong>~100 TB drive</strong></div>
+        <div class="bar-track"><div class="bar-fill proj" style="width:100%"></div></div>
+      </div>
+      <p class="bar-note">▲ Orange bar = projected target. HAMR is expected to restore areal density growth to ~20% CAGR.</p>
+    </div>
+  </div>
+
+  <!-- § 3  MILESTONE TIMELINE -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">📅</span>Key Milestone Timeline</div>
+    <div class="timeline mb-lg">
+
+      <div class="tl-item">
+        <div class="tl-date">January 2025</div>
+        <div class="tl-title">Exos M 36 TB Sampling — Mozaic 3+ Extended</div>
+        <div class="tl-body">Seagate shipped Exos M hard drive samples up to 36 TB to select customers, while simultaneously ramping 32 TB volume shipments with a leading cloud service provider. Seagate remains the only HDD manufacturer capable of achieving 3.6 TB per platter at scale.</div>
+        <div class="chips">
+          <span class="chip g">Exos M</span><span class="chip">3.6 TB/disk</span>
+          <span class="chip">36 TB samples</span><span class="chip">32 TB in volume</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">May 22, 2025 — New York City</div>
+        <div class="tl-title">2025 Investor &amp; Analyst Event — FY2028 Strategy Unveiled</div>
+        <div class="tl-body">Seagate hosted its annual investor event in New York, presenting the Mozaic platform roadmap (3+ TB/disk → 10 TB/disk), setting new FY2028 financial targets, and increasing the share repurchase authorization to <strong>$5 billion</strong>.</div>
+        <div class="chips">
+          <span class="chip g">Investor Day</span>
+          <span class="chip o">FY2028 Targets</span>
+          <span class="chip">$5B Buyback</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Throughout 2025</div>
+        <div class="tl-title">IronWolf Pro 30 TB — HAMR Reaches the Channel Market</div>
+        <div class="tl-body">IronWolf Pro 30 TB drives became broadly available in the global channel, bringing Mozaic 3+ HAMR technology to NAS and workstation users. Cumulative HAMR drive shipments exceeded <strong>1 million units</strong>; Seagate delivered over <strong>550 EB of capacity</strong> in the year.</div>
+        <div class="chips">
+          <span class="chip">IronWolf Pro 30 TB</span>
+          <span class="chip g">1M+ HAMR shipped</span>
+          <span class="chip">550 EB / year</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">March 2026</div>
+        <div class="tl-title">Mozaic 4+ Enters Volume Production — Industry's Highest Capacity at 44 TB</div>
+        <div class="tl-body">Seagate announced that Mozaic 4+ is now qualified and in volume production with <strong>two leading hyperscale cloud providers</strong>, supporting capacities up to 44 TB. The platform's next-gen suspension architecture and enhanced SoC enable precise recording at higher densities while maintaining enterprise-class reliability.</div>
+        <div class="chips">
+          <span class="chip g">44 TB volume</span>
+          <span class="chip">2 hyperscalers qualified</span>
+          <span class="chip">4+ TB/disk</span>
+        </div>
+      </div>
+
+      <div class="tl-item fut">
+        <div class="tl-date">▶ 2027–2028 (Projected)</div>
+        <div class="tl-title">10 TB/Disk Target — Road to 100 TB HDDs</div>
+        <div class="tl-body">Seagate targets a lab demonstration of 10 TB/disk by 2028, paving the way for 100 TB drives. Mozaic 5+ development is underway. The company has a clear line of sight to <strong>100 TB and beyond by 2032</strong>.</div>
+        <div class="chips">
+          <span class="chip o">Mozaic 5+</span>
+          <span class="chip o">10 TB/disk by 2028</span>
+          <span class="chip o">100 TB by 2032</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- § 4  PRODUCT LINEUP -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">💿</span>Product Portfolio Overview</div>
+    <table class="pt mb-lg">
+      <thead>
+        <tr><th>Product</th><th>Platform</th><th>Max Capacity</th><th>Target Market</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Exos M</strong></td><td>Mozaic 3+</td><td>36 TB</td><td>Hyperscale cloud, data centers</td><td><span class="badge prod">In Production</span></td></tr>
+        <tr><td><strong>Exos M (Mozaic 4+)</strong></td><td>Mozaic 4+</td><td>44 TB</td><td>Hyperscale cloud, AI infrastructure</td><td><span class="badge prod">In Production</span></td></tr>
+        <tr><td><strong>IronWolf Pro</strong></td><td>Mozaic 3+</td><td>30 TB</td><td>NAS, workstations, enterprise backup</td><td><span class="badge prod">In Production</span></td></tr>
+        <tr><td><strong>Exos X (CMR)</strong></td><td>ePMR / HAMR</td><td>~20 TB</td><td>General enterprise storage</td><td><span class="badge prod">In Production</span></td></tr>
+        <tr><td><strong>Mozaic 5+ Series</strong></td><td>Mozaic 5+</td><td>~50 TB+ (est.)</td><td>Next-gen hyperscale cloud</td><td><span class="badge fut">Lab Stage</span></td></tr>
+        <tr><td><strong>100 TB Target Drive</strong></td><td>10 TB/disk</td><td>100 TB+</td><td>AI hyperscale storage</td><td><span class="badge fut">Target: 2032</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- § 5  AI-ERA ADVANTAGES -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">🤖</span>AI-Era Competitive Advantages</div>
+    <div class="two-col mb-md">
+      <div class="hl-box">
+        <h3>📊 Economics &amp; Efficiency</h3>
+        <ul class="hl-list">
+          <li><strong>300% more storage capacity</strong> within the same data center footprint</li>
+          <li>Cost per TB reduced by <strong>25%</strong> vs. prior generation</li>
+          <li>Power consumption per TB reduced by <strong>60%</strong></li>
+          <li>Capacity per rack and capacity per watt both improve with each generation</li>
+          <li>1 EB deployment saves ~100 sq. ft. of floor space vs. standard 30 TB drives</li>
+          <li>~0.8M kWh annual energy savings per exabyte deployed</li>
+        </ul>
+      </div>
+      <div class="hl-box">
+        <h3>🔬 Technology Moat</h3>
+        <ul class="hl-list">
+          <li>Industry's <strong>only</strong> HAMR platform deployed at hyperscale</li>
+          <li>In-house nanophotonic laser manufacturing (vertical integration)</li>
+          <li>Smooth platform transitions — customers upgrade without architectural disruption</li>
+          <li>Majority of world's largest cloud providers already qualified on Mozaic</li>
+          <li>45+ years of innovation; 4.5+ billion TB of cumulative capacity shipped</li>
+          <li>HAMR restores ~20% areal density CAGR for the coming decade</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote">
+      <p>"Data has become one of the most valuable assets for enterprises, fueling business insights, enhancing productivity, and enabling competitive advantage. As the foundation of modern data center infrastructure, data storage solutions are essential to manage ever-increasing data volumes and maximize returns on investments in today's AI-driven world. Seagate's HAMR-based Mozaic products deliver the scale, performance, and efficiency customers need to unlock the full potential of their data."</p>
+      <cite>— Dave Mosley, Chair &amp; CEO, Seagate Technology (March 2026)</cite>
+    </div>
+  </div>
+
+  <!-- § 6  FINANCIAL TARGETS -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">📈</span>2025 Investor Event: FY2028 Financial Targets</div>
+    <div class="bar-chart">
+      <table class="fin">
+        <thead><tr><th>Financial Metric</th><th>FY2025–2028 Target</th></tr></thead>
+        <tbody>
+          <tr><td>Revenue CAGR</td><td>Low-to-mid teens</td></tr>
+          <tr><td>Gross Margin (Non-GAAP)</td><td>40%, with further expansion opportunity</td></tr>
+          <tr><td>Incremental Margin</td><td>~50% (starting at $2.6B quarterly revenue)</td></tr>
+          <tr><td>Operating Expenses (Non-GAAP)</td><td>~10% of revenue</td></tr>
+          <tr><td>Capital Expenditures</td><td>4–6% of revenue</td></tr>
+          <tr><td>Capital Returns</td><td>&gt;75% of free cash flow</td></tr>
+          <tr><td>Share Repurchase Authorization</td><td>$5 billion (no expiration)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- § 7  INNOVATION HIGHLIGHTS -->
+  <div class="section">
+    <div class="sec-title"><span class="ico">⭐</span>2025–2026 Innovation Highlights</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-hdr"><div class="cico g">🏆</div><h3>Industry First Mover</h3></div>
+        <p>Seagate is the only HDD manufacturer to have commercialized HAMR at scale. Mozaic 4+ (44 TB) is already deployed with hyperscalers, while Mozaic 3+ has surpassed 1 million cumulative drives shipped.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico b">🔗</div><h3>Seamless Upgrade Path</h3></div>
+        <p>Each Mozaic generation shares the same foundational architecture. Customers adopt new technology on their own timelines — <strong>no forced infrastructure re-architecture</strong> required.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico o">⚡</div><h3>AI Workload Optimized</h3></div>
+        <p>Mozaic drives are engineered for LLM training datasets, AI inference archives, and multimodal content storage — delivering ultra-high capacity density and reliability for long-term data retention at AI scale.</p>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="cico p">🌱</div><h3>Sustainability at Scale</h3></div>
+        <p>60% reduction in power per TB, ~0.8M kWh annual energy savings per EB deployed, and significantly reduced data center floor space help hyperscalers meet sustainability targets while scaling AI infrastructure.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <p>Sources:
+    <a href="https://investors.seagate.com/news/news-details/2026/Seagate-Delivers-Industrys-Highest-Capacity-Hard-Drives-with-Next-Generation-Mozaic-4/default.aspx" target="_blank">Mozaic 4+ Production (Mar 2026)</a> ·
+    <a href="https://investors.seagate.com/news/news-details/2025/Seagate-Highlights-Strategy-to-Build-Long-Term-Value-in-Todays-Data-driven-World-at-2025-Investor-and-Analyst-Event/default.aspx" target="_blank">2025 Investor Event (May 2025)</a> ·
+    <a href="https://investors.seagate.com/news/news-details/2025/Seagate-Introduces-Hard-Drive-Capacities-of-Up-to-36TB-Extending-Its-HAMR-Based-Mozaic-3-Technology-Platform/default.aspx" target="_blank">Exos M 36TB (Jan 2025)</a> ·
+    <a href="https://www.seagate.com/innovation/hamr/" target="_blank">seagate.com/innovation/hamr</a>
+  </p>
+  <p style="margin-top:8px">Report compiled by Claude AI from official Seagate publications · Generated: May 14, 2026</p>
+</footer>
+
+</body>
+</html>
