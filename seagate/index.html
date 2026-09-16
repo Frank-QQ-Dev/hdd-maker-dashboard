@@ -41,25 +41,25 @@
 <header>
   <div><a href="../">← All Companies</a></div>
   <h1>Seagate Technology (STX) – Financial Dashboard</h1>
-  <p>Calendar Year Analysis | CY2020–CY2025 | Revenue, Gross Profit & Net Income ($M USD)</p>
+  <p>Calendar Year Analysis | CY2020–CY2026 | Revenue, Gross Profit & Net Income ($M USD)</p>
 </header>
 
 <div class="container">
   <div class="kpi-grid">
     <div class="kpi">
       <div class="label">CY2025 Revenue</div>
-      <div class="value">$15,056M</div>
-      <div class="sub">vs CY2024: $10,839M</div>
+      <div class="value">$10,058M</div>
+      <div class="sub">vs CY2024: $8,035M</div>
     </div>
     <div class="kpi">
       <div class="label">CY2025 Gross Profit</div>
-      <div class="value">$5,748M</div>
-      <div class="sub">Gross Margin: 38.2%</div>
+      <div class="value">$3,887M</div>
+      <div class="sub">Gross Margin: 38.6%</div>
     </div>
     <div class="kpi">
       <div class="label">CY2025 Net Income</div>
-      <div class="value">$2,926M</div>
-      <div class="sub">Net Margin: 19.4%</div>
+      <div class="value">$1,970M</div>
+      <div class="sub">Net Margin: 19.6%</div>
     </div>
   </div>
 
@@ -85,12 +85,12 @@
 
 <script>
 const years=["CY2020", "CY2021", "CY2022", "CY2023", "CY2024", "CY2025"];
-const rev=[0, 16753.0, 14674.0, 9451.0, 10839.0, 15056.0];
-const gp=[0, 4740.0, 3711.0, 0, 3168.0, 5748.0];
-const ni=[0, 2040.0, 1327.0, -1356.0, 1434.0, 2926.0];
-const gm=[0, 28.3, 25.3, 0, 29.2, 38.2];
-const nm=[0, 12.2, 9.0, -14.3, 13.2, 19.4];
-const qd={"2020": {"rev": [2718.0, 0, 2314.0, 2623.0], "gp": [0, 0, 596.0, 696.0]}, "2021": {"rev": [2731.0, 7791.0, 3115.0, 3116.0], "gp": [740.0, 2096.0, 956.0, 948.0]}, "2022": {"rev": [2802.0, 7950.0, 2035.0, 1887.0], "gp": [806.0, 2177.0, 482.0, 246.0]}, "2023": {"rev": [1860.0, 4582.0, 1454.0, 1555.0], "gp": [319.0, 545.0, 0, 362.0]}, "2024": {"rev": [1655.0, 4691.0, 2168.0, 2325.0], "gp": [425.0, 1217.0, 714.0, 812.0]}, "2025": {"rev": [2160.0, 7442.0, 2629.0, 2825.0], "gp": [760.0, 2775.0, 1037.0, 1176.0]}};
+const rev=[10172.0, 11975.0, 9352.0, 6471.0, 8035.0, 10058.0];
+const gp=[0, 3529.0, 2293.0, 0, 2551.0, 3887.0];
+const ni=[989.0, 1838.0, 618.0, -573.0, 1179.0, 1970.0];
+const gm=[0, 29.5, 24.5, 0, 31.7, 38.6];
+const nm=[9.7, 15.3, 6.6, -8.9, 14.7, 19.6];
+const qd={"2020": {"rev": [2718.0, 2517.0, 2314.0, 2623.0], "gp": [0, 0, 596.0, 696.0]}, "2021": {"rev": [2731.0, 3013.0, 3115.0, 3116.0], "gp": [740.0, 885.0, 956.0, 948.0]}, "2022": {"rev": [2802.0, 2628.0, 2035.0, 1887.0], "gp": [806.0, 759.0, 482.0, 246.0]}, "2023": {"rev": [1860.0, 1602.0, 1454.0, 1555.0], "gp": [319.0, 304.0, 0, 362.0]}, "2024": {"rev": [1655.0, 1887.0, 2168.0, 2325.0], "gp": [425.0, 600.0, 714.0, 812.0]}, "2025": {"rev": [2160.0, 2444.0, 2629.0, 2825.0], "gp": [760.0, 914.0, 1037.0, 1176.0]}, "2026": {"rev": [3112.0, 3629.0, 0, 0], "gp": [1447.0, 1898.0, 0, 0]}};
 
 new Chart(document.getElementById('mainChart').getContext('2d'),{
   data:{labels:years,datasets:[
